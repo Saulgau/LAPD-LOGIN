@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LAPD Login</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+        background-color: #2d2b36;
+        color: #ecf0f1;
+        position: relative;
+        transition: background-color 0.5s ease;
+      }
+
+      #logo {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      #logo img {
+        width: 150px;
+      }
+
+      #loginForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #2c3e50;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        opacity: 1;
+      }
+
+      #loginForm label {
+        margin-bottom: 5px;
+      }
+
+      #loginForm input {
+        margin-bottom: 10px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #3498db;
+        border-radius: 5px;
+        transition: border-color 0.3s ease;
+      }
+
+      #loginForm input:focus {
+        border-color: #e74c3c;
+      }
+
+      #loginButton {
+        padding: 10px;
+        background-color: #3498db;
+        color: #ecf0f1;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      #loginButton:hover {
+        background-color: #2980b9;
+      }
+
+      .error {
+        color: #e74c3c;
+        margin-top: 10px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="logo">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Seal_of_the_Los_Angeles_Police_Department.png/220px-Seal_of_the_Los_Angeles_Police_Department.png"
+        alt="LAPD Logo"
+      />
+    </div>
+    <div id="loginForm">
+      <label for="username">Benutzername:</label>
+      <input type="text" id="username" name="username" required />
+      <label for="password">Passwort:</label>
+      <input type="password" id="password" name="password" required />
+      <label for="serviceNumber">Dienstnummer (3-stellig):</label>
+      <input
+        type="text"
+        id="serviceNumber"
+        name="serviceNumber"
+        pattern="\d{3}"
+        title="Drei Ziffern erforderlich"
+        required
+      />
+      <button id="loginButton" onclick="login()">Anmelden</button>
+      <div id="loginFeedback" class="error" style="display: none">
+        Falsche Anmeldeinformationen, bitte versuchen Sie es erneut.
+      </div>
+    </div>
+    <script>
+      const users = [
+        { B: "Lucas Dawson", P: "LucasDawson07", s: "215" },
+        { B: "admin", P: "admin", s: "admin" },
+        { B: "Marcel Rickiat", P: "MarcelRickiat07", s: "216" },
+      ];
+
+      function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const serviceNumber = document.getElementById("serviceNumber").value;
+        const user = users.find(
+          (u) => u.B === username && u.P === password && u.s === serviceNumber
+        );
+
+        if (user) {
+          localStorage.setItem("loginSuccess", "true");
+          window.location.href = "https://saulgau.github.io/LAPD/";
+        } else {
+          document.getElementById("loginFeedback").style.display = "block";
+          setTimeout(() => {
+            document.getElementById("loginFeedback").style.display = "none";
+          }, 3000);
+        }
+      }
+    </script>
+  </body>
+</html>
